@@ -1,6 +1,6 @@
 #include <stdio.h>
 /**
-*main - sum all multiples of 3 and 5 below 1024 
+*main - sum all multiples of 3 and 5 below 1024
 *Return: 0
 */
 int main(void)
