@@ -2,7 +2,7 @@
 /**
 *print_line - print _ n times
 *@n: integer
-*Return: 
+*Return: nothing
 */
 void print_line(int n)
 {
@@ -10,5 +10,5 @@ void print_line(int n)
 
 	for (i = 0; i < n; i++)
 		_putchar('_');
-	_putchar('\n');	
+	_putchar('\n');
 }
