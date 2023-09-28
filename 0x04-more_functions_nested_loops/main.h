@@ -17,4 +17,5 @@ void print_to_98(int n);
 void print_times_table(int n);
 /*0x04-more_functions_nested_loops*/
 int _isupper(int c);
+int _isdigit(int c);
 #endif /* MAIN_H */
