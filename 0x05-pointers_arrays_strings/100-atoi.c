@@ -1,8 +1,8 @@
 #include "main.h"
 /**
-*
-*
-*Return: 
+*_atoi - converts a string to an integer
+*@s: string
+*Return: an integer
 */
 int _atoi(char *s)
 {
@@ -10,18 +10,18 @@ int _atoi(char *s)
 	int result = 0;
 	int i = 0;
 
-    if (s == NULL)
+	if (s == NULL)
 	{
-		return 0;
+		return (0);
 	}
 
-    /* Skip leading whitespace characters*/
+	/* Skip leading whitespace characters*/
 	while (s[i] == ' ' || s[i] == '\t')
 	{
 		i++;
 	}
 
-    /* Check for a sign character*/
+	/* Check for a sign character*/
 	if (s[i] == '-')
 	{
 		sign = -1;
@@ -31,17 +31,17 @@ int _atoi(char *s)
 		i++;
 	}
 
-    /* Iterate through the remaining characters and convert to an integer*/
-    while (s[i] >= '0' && s[i] <= '9')
+	/* Iterate through the remaining characters and convert to an integer*/
+	while (s[i] >= '0' && s[i] <= '9')
 	{
-        /* Check for integer overflow*/
+		/* Check for integer overflow*/
 		if (result > (2147483647 - (s[i] - '0')) / 10)
 		{
-			return (sign == 1) ? 2147483647 : -2147483648;
+			return ((sign == 1) ? 2147483647 : -2147483648);
 		}
 		result = result * 10 + (s[i] - '0');
 		i++;
 	}
 
-	return result * sign;
+	return (result * sign);
 }
