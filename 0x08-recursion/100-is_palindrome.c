@@ -1,16 +1,18 @@
 #include "main.h"
 /**
-*_strlen - finds the length of the string
-*@s: a string
-*Return: the length
+*_strlen_recursion - find the length of a string
+*@s: string
+*Return: length
 */
-int _strlen(char *s)
+int _strlen_recursion(char *s)
 {
-		int i;
+		if (*s == '\0')
+		{
+			return (0); /* Base case: Length of an empty string is 0*/
+		}
 
-		for (i = 0; *s != '\0'; i++)
-			s++;
-		return (i);
+		/*Recursively call the func with next char and add 1 for the current char*/
+		return (1 + _strlen_recursion(s + 1));
 }
 /**
 *is_palindrome_helper - helps to check if a string is a palindrome
@@ -40,7 +42,7 @@ int is_palindrome_helper(char *s, int start, int end)
 */
 int is_palindrome(char *s)
 {
-	int length = _strlen(s);
+	int length = _strlen_recursion(s);
 
 	if (length <= 1)
 	{
