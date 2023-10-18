@@ -9,26 +9,22 @@ int wildcmp(char *s1, char *s2)
 {
 	if (*s1 == '\0' && *s2 == '\0')
 	{
-		return (1); /* Both strings are empty, considered identical*/
+		return 1; /* Both strings are empty, considered identical*/
 	}
 
 	if (*s2 == '*')
 	{
-		while (*(s2 + 1) == '*')
+		if (*(s2 + 1) == '\0')
 		{
-			s2++; /* Skip consecutive '*' characters in s2*/
+ 			return 1; /*The rest of s2 is '*', considered identical*/
 		}
 
-		while (*s1 != '\0')
+		if (*s1 == '\0')
 		{
-			if (wildcmp(s1, s2 + 1))
-			{
-				return (1); /* Check if * in s2 represents an empty string*/
-			}
-			s1++; /* Move to the next character in s1*/
+			return wildcmp(s1, s2 + 1); /* Check if * in s2 represents the end of s1*/
 		}
 
-		return (wildcmp(s1, s2 + 1)); /* Check if * in s2 represents the end of s1*/
+		return (wildcmp(s1 + 1, s2) || wildcmp(s1, s2 + 1)); /* Check with * representing empty string or end of s1*/
 	}
 
 	if (*s1 == '\0' || *s2 == '\0' || *s1 != *s2)
