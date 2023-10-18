@@ -7,7 +7,7 @@
 char *rot13(char *str)
 {
 	int i;
-	char *result = str;  /* Save the original pointer for returning*/
+	char *result = str;  /* Save the original pointer for returning */
 
 	for (i = 0; str[i] != '\0'; i++)
 	{
@@ -15,8 +15,15 @@ char *rot13(char *str)
 
 		if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
 		{
-			char base = (c >= 'A' && c <= 'Z') ? 'A' : 'a';
+			char base;
 
+			if (c >= 'A' && c <= 'Z')
+			{
+				base = 'A';
+			} else
+			{
+				base = 'a';
+			}
 			str[i] = (c - base + 13) % 26 + base;
 		}
 	}
