@@ -5,6 +5,7 @@
 *@name: name
 *@age: age
 *@owner: the owner
+*Description: a struc named dog used as a header file
 */
 struct dog
 {
