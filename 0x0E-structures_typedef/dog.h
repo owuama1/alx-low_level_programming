@@ -4,7 +4,7 @@
 *struct dog - a struct named dog
 *@name: name
 *@age: age
-*@owner: the owner 
+*@owner: the owner
 */
 struct dog 
 {
