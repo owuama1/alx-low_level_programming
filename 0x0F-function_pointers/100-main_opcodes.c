@@ -4,7 +4,7 @@
 /**
 *print_opcodes - prints the opcodes
 *@main_addr: the main address
-*@num_bytes: number of bytes 
+*@num_bytes: number of bytes
 *Return: nothing
 */
 void print_opcodes(unsigned char *main_addr, int num_bytes)
@@ -25,7 +25,7 @@ void print_opcodes(unsigned char *main_addr, int num_bytes)
 *main - prints the opcodes of its own main function.
 *@argc: argument count
 *@argv: argument vector
-*Return: 
+*Return: 0
 */
 int main(int argc, char *argv[])
 {
