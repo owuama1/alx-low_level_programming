@@ -1,6 +1,7 @@
 #ifndef LISTS_H
 #define LISTS_H
 #include <unistd.h>
+int _putchar(char c);
 /*0x12-singly_linked_lists*/
 /**
  * struct list_s - singly linked list
