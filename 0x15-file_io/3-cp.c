@@ -27,11 +27,10 @@ void error_cant_read(char *file)
 	exit(98);
 }
 /**
-*error_cant_close - print can not close the file
+*error_cant_write - print can not close the file
 *@file: file
 *Return: nothing
 */
-
 void error_cant_write(char *file)
 {
 	dprintf(STDERR_FILENO, "Error: Can't write to file %s\n", file);
