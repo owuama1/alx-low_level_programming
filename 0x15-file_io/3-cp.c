@@ -10,7 +10,7 @@
 *Return: nothing
 */
 
-void error_usage()
+void error_usage(void)
 {
 	dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 	exit(97);
