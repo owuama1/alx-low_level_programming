@@ -1,9 +1,9 @@
 #include "search_algos.h"
 
 /**
- * jump_list - Searches for a value in a sorted singly linked list
- *             of integers using the jump search algorithm.
- * @list: A pointer to the head of the linked list to search.
+ * jump_list - Searching for an algorithm in a sorted singly
+ *             linked list of integers using jump search.
+ * @list: A pointer to the  head of the linked list to search.
  * @size: The number of nodes in the list.
  * @value: The value to search for.
  *
@@ -15,25 +15,31 @@
  */
 listint_t *jump_list(listint_t *list, size_t size, int value)
 {
-    size_t step_size, step;
-    listint_t *node, *jump;
+	size_t step, step_size;
+	listint_t *node, *jump;
 
-    if (list == NULL || size == 0)
-        return NULL;
+	if (list == NULL || size == 0)
+		return (NULL);
 
-    step_size = sqrt(size);
-    for (jump = list; jump->next && jump->n < value; jump = jump->next)
-    {
-        node = jump;
-        for (step = 0; jump->next && step < step_size; step++, jump = jump->next)
-            printf("Value checked at index [%lu] = [%d]\n", jump->index, jump->n);
-    }
+	step = 0;
+	step_size = sqrt(size);
+	for (node = jump = list; jump->index + 1 < size && jump->n < value;)
+	{
+		node = jump;
+		for (step += step_size; jump->index < step; jump = jump->next)
+		{
+			if (jump->index + 1 == size)
+				break;
+		}
+		printf("Value checked at index [%ld] = [%d]\n", jump->index, jump->n);
+	}
 
-    printf("Value found between indexes [%lu] and [%lu]\n", node->index, jump->index);
+	printf("Value found between indexes [%ld] and [%ld]\n",
+			node->index, jump->index);
 
-    for (; node->index < jump->index && node->n < value; node = node->next)
-        printf("Value checked at index [%lu] = [%d]\n", node->index, node->n);
-    printf("Value checked at index [%lu] = [%d]\n", node->index, node->n);
+	for (; node->index < jump->index && node->n < value; node = node->next)
+		printf("Value checked at index [%ld] = [%d]\n", node->index, node->n);
+	printf("Value checked at index [%ld] = [%d]\n", node->index, node->n);
 
-    return (node->n == value ? node : NULL);
+	return (node->n == value ? node : NULL);
 }
