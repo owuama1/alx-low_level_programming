@@ -1,50 +1,109 @@
+#include "main.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "main.h"
-#include <gmp.h>
-/**
-*is_digit - checks if str is a digit
-*@str: a char
-*Return: 1 if true and 0 if false
-*/
-int is_digit(char *str)
-{
-	int i;
+#include <string.h>
+#include <ctype.h>
 
-	for (i = 0; str[i] != '\0'; i++)
-	{
-		if (str[i] < '0' || str[i] > '9')
-		{
-			return (0); /* Not a digit*/
-		}
-	}
-	return (1); /* All characters are digits*/
-}
 /**
-*main - a program that multiplies two positive numbers.
-*@argc: argument count
-*@argv: argument vector
-*Return: the product
-*/
+ * is_digit - checks if a string is composed only of digits
+ * @s: the string to check
+ *
+ * Return: 1 if the string is composed only of digits, 0 otherwise
+ */
+int is_digit(char *s)
+{
+	while (*s)
+	{
+		if (!isdigit(*s))
+			return (0);
+		s++;
+	}
+	return (1);
+}
+
+/**
+ * print_error - prints an error message and exits
+ */
+void print_error(void)
+{
+	printf("Error\n");
+	exit(98);
+}
+
+/**
+ * multiply - multiplies two large numbers represented as strings
+ * @num1: the first number
+ * @num2: the second number
+ *
+ * Return: the product as a string
+ */
+char *multiply(char *num1, char *num2)
+{
+	int len1 = strlen(num1);
+	int len2 = strlen(num2);
+	int *result = calloc(len1 + len2, sizeof(int));
+	char *final_result;
+	int i, j, carry, n1, n2;
+
+	if (result == NULL)
+		return (NULL);
+	for (i = len1 - 1; i >= 0; i--)
+	{
+		n1 = num1[i] - '0';
+		carry = 0;
+
+		for (j = len2 - 1; j >= 0; j--)
+		{
+			n2 = num2[j] - '0';
+			carry += result[i + j + 1] + (n1 * n2);
+			result[i + j + 1] = carry % 10;
+			carry /= 10;
+		}
+		result[i + j + 1] += carry;
+	}
+	i = 0;
+	while (i < len1 + len2 && result[i] == 0)
+		i++;
+	if (i == len1 + len2)
+		return ("0");
+	final_result = malloc((len1 + len2 - i + 1) * sizeof(char));
+	if (final_result == NULL)
+	{
+		free(result);
+		return (NULL);
+	}
+	j = 0;
+	while (i < len1 + len2)
+		final_result[j++] = result[i++] + '0';
+	final_result[j] = '\0';
+
+	free(result);
+	return (final_result);
+}
+
+/**
+ * main - entry point
+ * @argc: the number of command-line arguments
+ * @argv: the array of command-line arguments
+ *
+ * Return: 0 on success, 98 on error
+ */
 int main(int argc, char *argv[])
 {
-	unsigned long num1 = strtol(argv[1], NULL, 10);
-	unsigned long num2 = strtol(argv[2], NULL, 10);
-	unsigned long result = num1 * num2;
+	char *result;
 
 	if (argc != 3)
-	{
-		printf("Error\n");
-		return (98); /* Incorrect number of arguments*/
-	}
+		print_error();
 
 	if (!is_digit(argv[1]) || !is_digit(argv[2]))
-	{
-		printf("Error\n");
-		return (98); /* Arguments are not composed of digits*/
-	}
+		print_error();
 
-	printf("%lu\n", result);
+	result = multiply(argv[1], argv[2]);
+	if (result == NULL)
+		print_error();
+
+	printf("%s\n", result);
+	free(result);
 
 	return (0);
 }
