@@ -1,47 +1,24 @@
 #include "main.h"
+
 /**
-*_atoi - converts a string to an integer
-*@s: string
-*Return: an integer
-*/
+ * _atoi - convert a string to an integer.
+ * @s: the string to be comverted.
+ *Return: The integer value of the comverted string.
+ */
+
 int _atoi(char *s)
 {
 	int sign = 1;
-	int result = 0;
-	int i = 0;
+	unsigned int num = 0;
 
-	if (s == NULL)
-	{
-		return (0);
-	}
+	do {
+		if (*s == '-')
+			sign *= -1;
+		else if (*s >= '0' && *s <= '9')
+			num = (num * 10) + (*s - '0');
+		else if (num > 0)
+			break;
+	} while (*s++);
 
-	/* Skip leading whitespace characters*/
-	while (s[i] == ' ' || s[i] == '\t')
-	{
-		i++;
-	}
-
-	/* Check for a sign character*/
-	if (s[i] == '-')
-	{
-		sign = -1;
-		i++;
-	} else if (s[i] == '+')
-	{
-		i++;
-	}
-
-	/* Iterate through the remaining characters and convert to an integer*/
-	while (s[i] >= '0' && s[i] <= '9')
-	{
-		/* Check for integer overflow*/
-		if (result > (2147483647 - (s[i] - '0')) / 10)
-		{
-			return ((sign == 1) ? 2147483647 : -2147483648);
-		}
-		result = result * 10 + (s[i] - '0');
-		i++;
-	}
-
-	return (result * sign);
+	return (num * sign);
 }
