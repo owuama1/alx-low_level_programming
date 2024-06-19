@@ -1,60 +1,78 @@
 #include "main.h"
-/**
-*_strlen - finds the length of the string
-*@s: a string
-*Return: the length
-*/
-int _strlen(char *s)
-{
-		int i;
 
-		for (i = 0; *s != '\0'; i++)
-			s++;
-	return (i);
-}
 /**
-*infinite_add - a function that adds two numbers
-*@n1: string
-*@n2: string
-*@r: buffer that the function will use to store the result
-*@size_r: buffer size
-*Return: sum of the integers
-*/
+ * rev_string - reverse array
+ * @n: integer params
+ * Return: 0
+ */
+
+void rev_string(char *n)
+{
+	int i = 0;
+	int j = 0;
+	char temp;
+
+	while (*(n + i) != '\0')
+	{
+		i++;
+	}
+	i--;
+
+	for (j = 0; j < i; j++, i--)
+	{
+		temp = *(n + j);
+		*(n + j) = *(n + i);
+		*(n + i) = temp;
+	}
+}
+
+/**
+ * infinite_add - add 2 numbers together
+ * @n1: text representation of 1st number to add
+ * @n2: text representation of 2nd number to add
+ * @r: pointer to buffer
+ * @size_r: buffer size
+ * Return: pointer to calling function
+ */
+
 char *infinite_add(char *n1, char *n2, char *r, int size_r)
 {
-	int len1 = _strlen(n1);
-	int len2 = _strlen(n2);
-	int carry = 0; /* Initialize carry to 0*/
-	int start, end;
-	int i, j, k;
+	int overflow = 0, i = 0, j = 0, digits = 0;
+	int val1 = 0, val2 = 0, temp_tot = 0;
 
-	if (len1 + len2 >= size_r)
+	while (*(n1 + i) != '\0')
+		i++;
+	while (*(n2 + j) != '\0')
+		j++;
+	i--;
+	j--;
+	if (j >= size_r || i >= size_r)
+		return (0);
+	while (j >= 0 || i >= 0 || overflow == 1)
 	{
-		return (0); /* Result cannot be stored in r*/
+		if (i < 0)
+			val1 = 0;
+		else
+			val1 = *(n1 + i) - '0';
+		if (j < 0)
+			val2 = 0;
+		else
+			val2 = *(n2 + j) - '0';
+		temp_tot = val1 + val2 + overflow;
+		if (temp_tot >= 10)
+			overflow = 1;
+		else
+			overflow = 0;
+		if (digits >= (size_r - 1))
+			return (0);
+		*(r + digits) = (temp_tot % 10) + '0';
+		digits++;
+		j--;
+		i--;
 	}
-
-	for (i = len1 - 1, j = len2 - 1, k = 0;
-		i >= 0 || j >= 0 || carry;
-		i--, j--, k++)
-	{
-		int num1 = (i >= 0) ? n1[i] - '0' : 0;
-		int num2 = (j >= 0) ? n2[j] - '0' : 0;
-		int sum = num1 + num2 + carry;
-
-		r[k] = (sum % 10) + '0'; /* Store the digit in the result buffer*/
-		carry = sum / 10; /* Update the carry*/
-	}
-
-	r[k] = '\0'; /* Null-terminate the result string*/
-
-	/* Reverse the result string*/
-	for (start = 0, end = k - 1; start < end; start++, end--)
-	{
-		char temp = r[start];
-
-		r[start] = r[end];
-		r[end] = temp;
-	}
-
+	if (digits == size_r)
+		return (0);
+	*(r + digits) = '\0';
+	rev_string(r);
 	return (r);
 }
