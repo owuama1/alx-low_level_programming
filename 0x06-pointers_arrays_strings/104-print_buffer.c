@@ -1,52 +1,50 @@
 #include "main.h"
 #include <stdio.h>
+
 /**
-*print_buffer - prints a buffer
-*@b: chracters
-*@size: size of buffer
-*Return: nothing
-*/
+ * print_buffer - prints buffer
+ * @b: buffer
+ * @size: size
+ * Return: void
+ */
 
 void print_buffer(char *b, int size)
 {
-	int i, j;
+	int o, j, i;
+
+	o = 0;
 
 	if (size <= 0)
 	{
 		printf("\n");
 		return;
 	}
-	for (i = 0; i < size; i += 10)
+	while (o < size)
 	{
-		printf("%08x: ", i); /* Print the starting position in hexadecimal*/
-
-		for (j = 0; j < 10; j++)
+		j = size - o < 10 ? size - o : 10;
+		printf("%08x: ", o);
+		for (i = 0; i < 10; i++)
 		{
-			if (i + j < size)
+			if (i < j)
+				printf("%02x", *(b + o + i));
+			else
+				printf("  ");
+			if (i % 2)
 			{
-				printf("%02x", b[i + j] & 0xFF); /* Print the hexadecimal content*/
-			} else
-			{
-				printf("  "); /* Padding for incomplete lines*/
-			}
-
-			if (j % 2 == 1)
-			{
-				printf(" "); /* Add a space between bytes*/
+				printf(" ");
 			}
 		}
-		printf(" ");
-
-		for (j = 0; j < 10; j++)
+		for (i = 0; i < j; i++)
 		{
-			if (i + j < size)
-			{
-				char c = b[i + j];
+			int c = *(b + o + i);
 
-				printf("%c", (c >= 32 && c <= 126) ? c : '.'); /* Print the content*/
-			} else
-				printf(" ");
+			if (c < 32 || c > 132)
+			{
+				c = '.';
+			}
+			printf("%c", c);
 		}
 		printf("\n");
+		o += 10;
 	}
 }
