@@ -1,84 +1,53 @@
-#include "main.h"
 #include <stdlib.h>
+#include <stdlib.h>
+#include "main.h"
 /**
-*_strncpy - copies a string
-*@dest: destination
-*@src: source
-*@n: number of bytes
-*Return: a pointer to the resulting string
-*/
-char *_strncpy(char *dest, char *src, int n)
+ * _strlen - calculate and return string length
+ * @string: string
+ * Return: string length
+ */
+int _strlen(char *string)
 {
-		char *original_dest = dest;  /* Save the original destination pointer*/
+	int i;
 
-		while (n > 0 && *src)
-		{
-			*dest = *src;
-			dest++;
-			src++;
-			n--;
-		}
-
-		/* If there are remaining bytes to fill, pad with null characters*/
-		while (n > 0)
-		{
-			*dest = '\0';
-			dest++;
-			n--;
-		}
-
-		return (original_dest);
+	for (i = 0; string[i] != '\0'; i++)
+		;
+	return (i);
 }
 /**
-*_strlen - finds the length of the string
-*@s: a string
-*Return: the length
-*/
-int _strlen(char *s)
-{
-		int i;
-
-		for (i = 0; *s != '\0'; i++)
-			s++;
-		return (i);
-}
-/**
-*string_nconcat - concatenates two strings
-*@s1: string
-*@s2: string
-*@n: integer
-*Return: newly allocated space in memory, containing s1,
-*followed by the 1st n bytes of s2, and null terminated
-*/
+ * string_nconcat - concatenate s1 and n bytes of s2; return ptr to string
+ * @s1: string 1
+ * @s2: string 2
+ * @n: n bytes to concat from string 2
+ * Return: pointer to concatenated string
+ */
 char *string_nconcat(char *s1, char *s2, unsigned int n)
 {
-	size_t len1 = _strlen(s1);
-	size_t len2 = _strlen(s2);
-	char *concatenated = (char *)malloc(len1 + n + 1);
+	char *ptr;
+	int num, len, i, j;
 
-	if (s1 == NULL)
-	{
-		s1 = ""; /* Treat a NULL s1 as an empty string*/
-	}
+	num = n;
+
+	if (s1 == NULL) /* account for NULL strings */
+		s1 = "";
 	if (s2 == NULL)
-	{
-		s2 = ""; /* Treat a NULL s2 as an empty string*/
-	}
+		s2 = "";
+	if (num < 0) /* account for negative n bytes */
+		return (NULL);
+	if (num >= _strlen(s2)) /* account for n too big */
+		num = _strlen(s2);
 
-	/* Use the smaller of n and the length of s2*/
-	if (n >= len2)
-	{
-		n = len2;
-	}
+	len = _strlen(s1) + num + 1; /* +1 to account for null pointer */
 
-	if (concatenated == NULL)
-	{
-		return (NULL); /* Return NULL if memory allocation fails*/
-	}
+	ptr = malloc(sizeof(*ptr) * len); /* malloc and check for error */
+	if (ptr == NULL)
+		return (NULL);
 
-	_strncpy(concatenated, s1, len1); /* Copy the first string*/
-	_strncpy(concatenated + len1, s2, n); /*Copy the 1st n chars of the 2nd str*/
-	concatenated[len1 + n] = '\0'; /* Null-terminate the concatenated string*/
+	for (i = 0; s1[i] != '\0'; i++) /* concat */
+		ptr[i] = s1[i];
+	for (j = 0; j < num; j++)
+		ptr[i + j] = s2[j];
+	ptr[i + j] = '\0';
 
-	return (concatenated);
+	return (ptr);
 }
