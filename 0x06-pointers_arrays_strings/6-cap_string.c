@@ -1,50 +1,39 @@
 #include "main.h"
-#include <ctype.h>
-/**
-*is_separator - check the operators
-*@c: character
-*Return: 1 if true, 0 is false
-*/
 
-int is_separator(char c)
-{
-	int i;
-	char separators[] = " \t\n,;.!?\"(){}";
-
-	for (i = 0; separators[i]; i++)
-	{
-		if (c == separators[i])
-		{
-			return (1);
-		}
-	}
-	return (0);
-}
 /**
-*cap_string - capitalises the first letter of every word
-*@str: string
-*Return: capitlaised string
-*/
+ * cap_string - capitalize all words of a string
+ * @str: string
+ * Return: `str`
+ */
+
 char *cap_string(char *str)
 {
-	int capitalize_next = 1; /* Start with capitalizing the first word*/
-	char *result = str;  /* Save the original pointer for returning*/
+	int i, c;
+	int trigger;
+	char nots[] = ",;.!?(){}\n\t\" ";
 
-	while (*str)
+	for (i = 0, trigger = 0; str[i] != '\0'; i++)
 	{
-		if (is_separator(*str))
+		if (str[0] > 96 && str[0] < 123)
+			trigger = 1;
+		for (c = 0; nots[c] != '\0'; c++)
 		{
-			capitalize_next = 1; /* Set to capitalize the next word*/
-		} else if (capitalize_next)
-		{
-			*str = toupper(*str);
-			capitalize_next = 0; /* Word already capitalized*/
-		} else
-		{
-			*str = tolower(*str);
+			if (nots[c] == str[i])
+				trigger = 1;
 		}
-		str++;
-	}
 
-	return (result);
+		if (trigger)
+		{
+			if (str[i] > 96 && str[i] < 123)
+			{
+				str[i] -= 32;
+				trigger = 0;
+			}
+			else if (str[i] > 64 && str[i] < 91)
+				trigger = 0;
+			else if (str[i] > 47 && str[i] < 58)
+				trigger = 0;
+		}
+	}
+	return (str);
 }
